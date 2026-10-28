@@ -1,0 +1,2927 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEET Biology Quiz Master - Principles of Inheritance and Variation</title>
+  <style>
+    /* ==========================================================================
+       CSS Variables & Theme Tokens
+       ========================================================================== */
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: rgba(18, 24, 38, 0.88);
+      --bg-card-hover: rgba(28, 36, 56, 0.95);
+      --bg-surface: #111827;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(99, 102, 241, 0.6);
+      
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-light: rgba(99, 102, 241, 0.15);
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      
+      --accent: #ec4899;
+      --accent-glow: rgba(236, 72, 153, 0.35);
+      
+      --success: #10b981;
+      --success-light: rgba(16, 185, 129, 0.15);
+      --success-border: rgba(16, 185, 129, 0.4);
+      
+      --danger: #ef4444;
+      --danger-light: rgba(239, 68, 68, 0.15);
+      --danger-border: rgba(239, 68, 68, 0.4);
+
+      --warning: #f59e0b;
+      --warning-light: rgba(245, 158, 11, 0.15);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 12px 24px -4px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 35px var(--primary-glow);
+      
+      --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ==========================================================================
+       Global Reset & Typography
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(ellipse 90% 60% at 50% -20%, rgba(99, 102, 241, 0.22), transparent 70%),
+        radial-gradient(circle at 10% 90%, rgba(236, 72, 153, 0.15), transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(79, 70, 229, 0.15), transparent 45%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 24px 16px 40px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================================================
+       App Container & Header
+       ========================================================================== */
+    .app-wrapper {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .top-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 4px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .brand-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 2;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .badge-live::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ==========================================================================
+       Card Containers
+       ========================================================================== */
+    .glass-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      padding: 32px;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.6), transparent);
+    }
+
+    /* Screen Visibility States */
+    .screen {
+      display: none;
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ==========================================================================
+       1. Landing Screen
+       ========================================================================== */
+    .hero-content {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-light);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 6px 16px;
+      border-radius: 999px;
+      color: #a5b4fc;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+
+    .feature-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      transition: var(--transition-fast);
+    }
+
+    .feature-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-2px);
+      border-color: rgba(99, 102, 241, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .feature-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .feature-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 40px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary), #8b5cf6);
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      box-shadow: 0 10px 25px var(--primary-glow);
+      transition: var(--transition-smooth);
+    }
+
+    .btn-hero:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 16px 35px var(--primary-glow);
+    }
+
+    .btn-hero:active {
+      transform: translateY(1px);
+    }
+
+    .btn-hero svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      transition: transform var(--transition-fast);
+    }
+
+    .btn-hero:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* ==========================================================================
+       2. Active Quiz Screen
+       ========================================================================== */
+    .quiz-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      gap: 16px;
+    }
+
+    .q-indicator {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .q-step-text {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .q-step-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .q-meta-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .timer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-pill svg {
+      color: var(--primary);
+    }
+
+    .btn-nav-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      outline: none;
+    }
+
+    .btn-nav-toggle:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    /* Linear Progress Track */
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 3.33%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 999px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Question Viewport & Display Card */
+    .question-viewport {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .question-card {
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      transition: var(--transition-smooth);
+    }
+
+    .question-card:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .q-card-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .q-source-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: var(--primary-light);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #a5b4fc;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .q-counter-pill {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .q-card-content {
+      font-size: 1.12rem;
+      line-height: 1.68;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    /* Match Tables & Callouts */
+    .match-table-wrap {
+      margin: 16px 0;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.28);
+    }
+
+    .match-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      text-align: left;
+    }
+
+    .match-table th {
+      background: rgba(99, 102, 241, 0.16);
+      color: #c7d2fe;
+      padding: 10px 16px;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .match-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+    }
+
+    .match-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Options Stack */
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: var(--transition-fast);
+      user-select: none;
+      outline: none;
+    }
+
+    .option-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .option-card:focus-visible {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    .option-card.selected {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(139, 92, 246, 0.15));
+      border-color: var(--primary);
+      box-shadow: 0 6px 20px var(--primary-glow);
+    }
+
+    @keyframes crackerCardBurst {
+      0% { transform: scale(0.97); }
+      50% { transform: scale(1.025); }
+      100% { transform: scale(1); }
+    }
+
+    .option-card.cracker-burst {
+      animation: crackerCardBurst 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .option-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      transition: var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .option-card:hover .option-badge {
+      color: var(--text-main);
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+
+    .option-card.selected .option-badge {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .option-label {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-main);
+      flex: 1;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .option-check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-fast);
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+
+    .option-card.selected .option-check-icon {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .option-check-icon svg {
+      width: 12px;
+      height: 12px;
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 3;
+      opacity: 0;
+      transition: var(--transition-fast);
+    }
+
+    .option-card.selected .option-check-icon svg {
+      opacity: 1;
+    }
+
+    /* Controls & Navigation Footer */
+    .quiz-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-subtle);
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      outline: none;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 26px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--primary-glow);
+      transition: var(--transition-fast);
+      outline: none;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px var(--primary-glow);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    .btn-finish {
+      background: linear-gradient(135deg, #10b981, #059669);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-finish:hover {
+      box-shadow: 0 8px 22px rgba(16, 185, 129, 0.5);
+    }
+
+    /* ==========================================================================
+       3. Question Navigator Drawer / Modal
+       ========================================================================== */
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .drawer-overlay.active {
+      display: flex;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .drawer-modal {
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      max-width: 620px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .drawer-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-fast);
+    }
+
+    .btn-close-modal:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .grid-question-pills {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 8px;
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .grid-question-pills {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .nav-pill {
+      aspect-ratio: 1;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-fast);
+    }
+
+    .nav-pill:hover {
+      border-color: var(--primary);
+      color: var(--text-main);
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    .nav-pill.answered {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .nav-pill.current {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .drawer-legend {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* Confirm Modal */
+    .confirm-modal {
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .confirm-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .confirm-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .confirm-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* ==========================================================================
+       4. Results Screen
+       ========================================================================== */
+    .results-hero {
+      text-align: center;
+      padding: 20px 0 36px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .score-circle-wrap {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 24px;
+    }
+
+    .score-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .score-bg-circle {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 10;
+    }
+
+    .score-progress-circle {
+      fill: none;
+      stroke: url(#scoreGradient);
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-dasharray: 427.26;
+      stroke-dashoffset: 427.26;
+      transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .score-number-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-val {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .score-total {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .perf-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .perf-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .perf-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 28px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 600px) {
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .stat-value.success { color: #34d399; }
+    .stat-value.danger { color: #f87171; }
+
+    .results-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    /* Review Section */
+    .review-section {
+      padding-top: 32px;
+    }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .review-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .review-filter-bar {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-filter {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .btn-filter:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+    }
+
+    .btn-filter.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    .review-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .review-card {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: var(--transition-fast);
+    }
+
+    .review-card.correct {
+      border-left: 4px solid var(--success);
+    }
+
+    .review-card.incorrect {
+      border-left: 4px solid var(--danger);
+    }
+
+    .review-card.unanswered {
+      border-left: 4px solid var(--warning);
+    }
+
+    .review-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .review-q-num {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .status-tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .status-tag.correct {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-tag.incorrect {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .status-tag.unanswered {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .review-q-text {
+      font-size: 0.98rem;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .review-answers-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+    }
+
+    .answer-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.88rem;
+    }
+
+    .ans-tag {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      max-width: 75%;
+      text-align: right;
+    }
+
+    .ans-tag.correct-ans {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .ans-tag.your-ans {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+    }
+
+    /* Cracker Canvas */
+    #crackerCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas for festive sparkling cracker explosions -->
+  <canvas id="crackerCanvas"></canvas>
+
+  <!-- SVG Gradients -->
+  <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#6366f1" />
+        <stop offset="50%" stop-color="#ec4899" />
+        <stop offset="100%" stop-color="#10b981" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div class="app-wrapper">
+    <!-- Top Branding Header -->
+    <header class="top-brand">
+      <div class="brand-logo">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+        </div>
+        <span>BioMaster NEET · PYQs</span>
+      </div>
+      <div class="header-actions">
+        <span class="badge-live">50 Questions</span>
+      </div>
+    </header>
+
+    <!-- ======================================================================
+         Screen 1: Landing Page / Welcome Hero
+         ====================================================================== -->
+    <main id="screenLanding" class="glass-card screen active">
+      <div class="hero-content">
+        <div class="hero-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 6v6l4 2"></path>
+          </svg>
+          Chapter-Wise NEET Biology PYQs (1993 – 2026)
+        </div>
+        
+        <h1 class="hero-title">Principles of Inheritance and Variation</h1>
+        <p class="hero-subtitle">
+          Master 50 authentic NEET Biology previous year questions on Principles of Inheritance and Variation with complete question text, interactive option cards, real-time timer, celebration crackers, and verified answer keys!
+        </p>
+
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">🌍</div>
+            <h3 class="feature-title">50 High-Yield PYQs</h3>
+            <p class="feature-desc">Complete question texts, statements, and match tables from official NEET / AIPMT papers.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">✨</div>
+            <h3 class="feature-title">Interactive Choice</h3>
+            <p class="feature-desc">Tap options with animated festive crackers and sound effects on every selection.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Performance Report</h3>
+            <p class="feature-desc">Instant score calculation, accuracy analytics, and question-by-question review.</p>
+          </div>
+        </div>
+
+        <button id="btnStartQuiz" class="btn-hero" autofocus>
+          <span>Start 50-Question Quiz</span>
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </main>
+
+    <!-- ======================================================================
+         Screen 2: Active Quiz Screen
+         ====================================================================== -->
+    <section id="screenQuiz" class="glass-card screen" aria-live="polite">
+      <!-- Top Question Meta -->
+      <div class="quiz-meta-bar">
+        <div class="q-indicator">
+          <span class="q-step-text">Principles of Inheritance and Variation</span>
+          <div class="q-step-title">
+            <span id="currentQDisplay">Question 1</span>
+            <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-dim);">of 50</span>
+          </div>
+        </div>
+        
+        <div class="q-meta-actions">
+          <div class="timer-pill" id="timerBadge" title="Elapsed Time">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span id="timerText">00:00</span>
+          </div>
+
+          <button id="btnOpenDrawer" class="btn-nav-toggle" title="Jump to question">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span id="answeredCountText">0/50 Answered</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Linear Progress Bar -->
+      <div class="progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="50" aria-valuenow="1">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+
+      <!-- Question Viewport -->
+      <div class="question-viewport">
+        <!-- Structured Question Card -->
+        <div class="question-card" id="questionCard">
+          <div class="q-card-topbar">
+            <span class="q-source-badge" id="qSourceBadge">RE-NEET 2026</span>
+            <span class="q-counter-pill" id="qCounterPill">Question 1 of 50</span>
+          </div>
+          <div class="q-card-content" id="qCardContent">
+            <!-- Dynamically populated question text / statements / match table -->
+          </div>
+        </div>
+
+        <!-- Options Container -->
+        <div id="optionsContainer" class="options-container" role="radiogroup" aria-label="Question Options">
+          <!-- Dynamically populated option cards -->
+        </div>
+      </div>
+
+      <!-- Quiz Navigation Controls -->
+      <div class="quiz-footer">
+        <button id="btnPrev" class="btn-secondary" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Previous
+        </button>
+
+        <button id="btnClearAns" class="btn-secondary" style="font-size: 0.85rem;" title="Clear selected answer">
+          Clear Choice
+        </button>
+
+        <button id="btnNext" class="btn-primary">
+          Next
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         Screen 3: Results & Analytics Screen
+         ====================================================================== -->
+    <section id="screenResults" class="glass-card screen">
+      <div class="results-hero">
+        <!-- Score Circular Progress Ring -->
+        <div class="score-circle-wrap">
+          <svg class="score-svg" viewBox="0 0 160 160">
+            <circle class="score-bg-circle" cx="80" cy="80" r="68"></circle>
+            <circle class="score-progress-circle" id="scoreRing" cx="80" cy="80" r="68"></circle>
+          </svg>
+          <div class="score-number-box">
+            <div class="score-val" id="scoreDisplay">0</div>
+            <div class="score-total">/ 50 Points</div>
+          </div>
+        </div>
+
+        <div id="perfBadge" class="perf-badge">Performance Grade</div>
+        <h2 id="perfTitle" class="perf-title">Quiz Completed!</h2>
+        <p id="perfSubtitle" class="perf-subtitle">Here is a detailed breakdown of your answers and conceptual accuracy.</p>
+
+        <!-- Stats Metric Grid -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Accuracy</div>
+            <div class="stat-value" id="statAccuracy">0%</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Correct</div>
+            <div class="stat-value success" id="statCorrect">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Incorrect</div>
+            <div class="stat-value danger" id="statIncorrect">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Time Taken</div>
+            <div class="stat-value" id="statTime">00:00</div>
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button id="btnRetake" class="btn-hero" style="font-size: 0.95rem; padding: 13px 28px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            Retake Quiz
+          </button>
+          <button id="btnHome" class="btn-secondary" style="font-size: 0.95rem; padding: 13px 24px;">
+            Home Page
+          </button>
+        </div>
+      </div>
+
+      <!-- Question-by-Question Review -->
+      <div class="review-section">
+        <div class="review-header">
+          <h3 class="review-title">Detailed Answer Review</h3>
+          <div class="review-filter-bar">
+            <button class="btn-filter active" data-filter="all">All (50)</button>
+            <button class="btn-filter" data-filter="correct">Correct</button>
+            <button class="btn-filter" data-filter="incorrect">Incorrect</button>
+            <button class="btn-filter" data-filter="unanswered">Unanswered</button>
+          </div>
+        </div>
+
+        <div id="reviewCardsList" class="review-cards-list">
+          <!-- Dynamically populated review cards -->
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ======================================================================
+       Modal 1: Question Navigator Grid
+       ====================================================================== -->
+  <div id="drawerOverlay" class="drawer-overlay" role="dialog" aria-modal="true" aria-label="Question Navigator">
+    <div class="drawer-modal">
+      <div class="drawer-header">
+        <h3 class="drawer-title">Question Navigator</h3>
+        <button id="btnCloseDrawer" class="btn-close-modal" aria-label="Close Navigator">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div id="gridPills" class="grid-question-pills">
+        <!-- 50 Question Pills rendered dynamically -->
+      </div>
+
+      <div class="drawer-legend">
+        <div class="legend-item">
+          <span class="legend-dot" style="background: var(--primary);"></span> Current
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background: #34d399;"></span> Answered
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background: rgba(255, 255, 255, 0.2);"></span> Unanswered
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Modal 2: Submission Confirmation Dialog
+       ====================================================================== -->
+  <div id="confirmOverlay" class="drawer-overlay" role="dialog" aria-modal="true" aria-label="Submit Confirmation">
+    <div class="confirm-modal">
+      <div class="confirm-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <h3 class="confirm-title" id="confirmTitle">Submit Quiz?</h3>
+      <p class="confirm-desc" id="confirmDesc">
+        Are you sure you want to finish the quiz? You will not be able to change your answers once submitted.
+      </p>
+      <div class="confirm-actions">
+        <button id="btnCancelSubmit" class="btn-secondary">Review Answers</button>
+        <button id="btnConfirmSubmit" class="btn-primary btn-finish">Submit Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       JavaScript Logic
+       ====================================================================== -->
+  <script>
+    /* -------------------------------------------------------------------------
+       50 NEET PYQs: Principles of Inheritance and Variation (With Complete Text, Options & Keys)
+       ------------------------------------------------------------------------- */
+    const questions = [
+    {
+        "id":  1,
+        "answer":  "B",
+        "year":  "RE-NEET 2026",
+        "answerText":  "Both A and R are correct and R is the correct explanation of A",
+        "options":  [
+                        "A is not correct but R is correct",
+                        "Both A and R are correct and R is the correct explanation of A",
+                        "Both A and R are correct but R is not the correct explanation of A",
+                        "A is correct but R is not correct"
+                    ],
+        "question":  "Given below are two statements : one is labelled as Assertion A and the other is labelled as Reason R.\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eAssertion A :\u003c/strong\u003e In an experiment, Mendel observed that the F1 progeny plants are all tall and none are dwarf.\u003cbr\u003e\u003cstrong\u003eReason R :\u003c/strong\u003e Stem height is a contrasting trait, with tall being dominant and dwarf being recessive.\u003cbr\u003e\u003cbr\u003eIn the light of the above statements, choose the most appropriate answer from the options given below :"
+    },
+    {
+        "id":  2,
+        "answer":  "A",
+        "year":  "RE-NEET 2026",
+        "answerText":  "Father : I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eB\u003c/sup\u003e and Mother : I\u003csup\u003eA\u003c/sup\u003ei",
+        "options":  [
+                        "Father : I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eB\u003c/sup\u003e and Mother : I\u003csup\u003eA\u003c/sup\u003ei",
+                        "Father : I\u003csup\u003eA\u003c/sup\u003ei and Mother : I\u003csup\u003eA\u003c/sup\u003ei",
+                        "Father : I\u003csup\u003eA\u003c/sup\u003ei and Mother : I\u003csup\u003eB\u003c/sup\u003ei",
+                        "Father : I\u003csup\u003eB\u003c/sup\u003ei and Mother : I\u003csup\u003eB\u003c/sup\u003ei"
+                    ],
+        "question":  "For a person with blood group \u0027O\u0027, which of the following is not a possible combination of parents\u0027 blood group genotypes?"
+    },
+    {
+        "id":  3,
+        "answer":  "C",
+        "year":  "RE-NEET 2026",
+        "answerText":  "Both Statement I and Statement II are incorrect",
+        "options":  [
+                        "Statement I is incorrect but Statement II is correct",
+                        "Both Statement I and Statement II are correct",
+                        "Both Statement I and Statement II are incorrect",
+                        "Statement I is correct but Statement II is incorrect"
+                    ],
+        "question":  "Given below are two statements :\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eStatement I :\u003c/strong\u003e Down\u0027s syndrome is caused by the absence of one of the X-chromosomes.\u003cbr\u003e\u003cstrong\u003eStatement II :\u003c/strong\u003e Turner\u0027s syndrome is caused by the presence of an additional copy of the chromosomes.\u003cbr\u003e\u003cbr\u003eIn the light of the above statements, choose the correct answer from the options given below:"
+    },
+    {
+        "id":  4,
+        "answer":  "A",
+        "year":  "NEET 2026",
+        "answerText":  "A-II, B-IV, C-III, D-I",
+        "options":  [
+                        "A-II, B-IV, C-III, D-I",
+                        "A-I, B-III, C-II, D-IV",
+                        "A-I, B-IV, C-III, D-II",
+                        "A-II, B-I, C-III, D-IV"
+                    ],
+        "question":  "Match List I with List II :\u003cbr\u003e\u003cdiv class=\u0027match-table-wrap\u0027\u003e\u003ctable class=\u0027match-table\u0027\u003e\u003cthead\u003e\u003ctr\u003e\u003cth\u003eList-I\u003c/th\u003e\u003cth\u003eList-II\u003c/th\u003e\u003c/tr\u003e\u003c/thead\u003e\u003ctbody\u003e\u003ctr\u003e\u003ctd\u003eA. Incomplete dominance\u003c/td\u003e\u003ctd\u003eI. Human skin colour\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eB. Co-dominance\u003c/td\u003e\u003ctd\u003eII. Inheritance of flower colour in Antirrhinum sp.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eC. Pleiotropy\u003c/td\u003e\u003ctd\u003eIII. Phenylketonuria disease in humans\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eD. Polygenic inheritance\u003c/td\u003e\u003ctd\u003eIV. ABO blood groups\u003c/td\u003e\u003c/tr\u003e\u003c/tbody\u003e\u003c/table\u003e\u003c/div\u003eChoose the correct answer from the options given below :"
+    },
+    {
+        "id":  5,
+        "answer":  "A",
+        "year":  "NEET 2026",
+        "answerText":  "A, B, C and E only",
+        "options":  [
+                        "A, B, C and E only",
+                        "B, C, D and E only",
+                        "A, B, C and D only",
+                        "A, B, D and E only"
+                    ],
+        "question":  "Which of the following statements are true with reference to the sex-determination in honeybees?\u003cbr\u003eA. An offspring formed from the union of a sperm and an egg, develops as a female (queen or worker).\u003cbr\u003eB. An unfertilized egg develops as a male by parthenogenesis.\u003cbr\u003eC. A male has half the number of chromosomes than that of a female.\u003cbr\u003eD. Males produce sperms by meiosis.\u003cbr\u003eE. Honeybees have a haplodiploid sex-determination system.\u003cbr\u003e\u003cbr\u003eChoose the correct answer from the options given below :"
+    },
+    {
+        "id":  6,
+        "answer":  "B",
+        "year":  "NEET 2026",
+        "answerText":  "Sickle-cell anaemia",
+        "options":  [
+                        "Thalassemia",
+                        "Sickle-cell anaemia",
+                        "Phenylketonuria",
+                        "Haemophilia"
+                    ],
+        "question":  "Which one of the following disorders is caused by the substitution of Glutamic acid (Glu) by Valine (Val) at the sixth position of the beta globin chain of the haemoglobin molecule?"
+    },
+    {
+        "id":  7,
+        "answer":  "A",
+        "year":  "NEET 2026",
+        "answerText":  "25%",
+        "options":  [
+                        "25%",
+                        "0%",
+                        "75%",
+                        "50%"
+                    ],
+        "question":  "What is the probability of having children with \u0027O\u0027 blood group, where both mother and father are heterozygous for \u0027A\u0027 and \u0027B\u0027 blood group, respectively?"
+    },
+    {
+        "id":  8,
+        "answer":  "C",
+        "year":  "NEET 2026",
+        "answerText":  "males and females, respectively",
+        "options":  [
+                        "females and males, respectively",
+                        "all males",
+                        "males and females, respectively",
+                        "all females"
+                    ],
+        "question":  "In a population of a grasshopper species, the chromosome number of some members is 23 and some other members possess 24 chromosomes. The 23 and 24 chromosome-bearing members in this species are _______."
+    },
+    {
+        "id":  9,
+        "answer":  "D",
+        "year":  "NEET 2025",
+        "answerText":  "Non-mendelian inheritance pattern",
+        "options":  [
+                        "Autosomal dominant pattern",
+                        "X-linked recessive inheritance pattern",
+                        "Mendelian inheritance pattern",
+                        "Non-mendelian inheritance pattern"
+                    ],
+        "question":  "What is the pattern of inheritance for polygenic trait?"
+    },
+    {
+        "id":  10,
+        "answer":  "C",
+        "year":  "NEET 2025",
+        "answerText":  "1/4",
+        "options":  [
+                        "1/8",
+                        "Zero",
+                        "1/4",
+                        "1/2"
+                    ],
+        "question":  "With the help of given pedigree, find out the probability for the birth of a child having no disease and being a carrier (has the disease mutation in one allele of the gene) in F3 generation.\u003cbr\u003e\u003cbr\u003e\u003cdiv style=\u0027display:flex;justify-content:center;margin:16px 0;\u0027\u003e\u003csvg viewBox=\u00270 0 540 310\u0027 style=\u0027max-width:520px;width:100%;background:rgba(15,23,42,0.6);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px;\u0027\u003e\u003cstyle\u003e.p-line{stroke:#94a3b8;stroke-width:2.5;fill:none;}.p-text{fill:#f8fafc;font-family:inherit;font-size:13px;font-weight:600;}.p-qmark{fill:#93c5fd;font-family:inherit;font-size:15px;font-weight:bold;text-anchor:middle;dominant-baseline:middle;}\u003c/style\u003e\u003ctext x=\u002718\u0027 y=\u002742\u0027 class=\u0027p-text\u0027 fill=\u0027#818cf8\u0027\u003eFâ‚€\u003c/text\u003e\u003crect x=\u0027190\u0027 y=\u002728\u0027 width=\u002728\u0027 height=\u002728\u0027 fill=\u0027#3b82f6\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003cline x1=\u0027218\u0027 y1=\u002742\u0027 x2=\u0027266\u0027 y2=\u002742\u0027 class=\u0027p-line\u0027/\u003e\u003ccircle cx=\u0027280\u0027 cy=\u002742\u0027 r=\u002714\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003cline x1=\u0027242\u0027 y1=\u002742\u0027 x2=\u0027242\u0027 y2=\u002768\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027155\u0027 y1=\u002768\u0027 x2=\u0027335\u0027 y2=\u002768\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027155\u0027 y1=\u002768\u0027 x2=\u0027155\u0027 y2=\u002798\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027335\u0027 y1=\u002768\u0027 x2=\u0027335\u0027 y2=\u002798\u0027 class=\u0027p-line\u0027/\u003e\u003ctext x=\u002718\u0027 y=\u0027112\u0027 class=\u0027p-text\u0027 fill=\u0027#818cf8\u0027\u003eFâ‚\u003c/text\u003e\u003crect x=\u002792\u0027 y=\u002798\u0027 width=\u002728\u0027 height=\u002728\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003cline x1=\u0027120\u0027 y1=\u0027112\u0027 x2=\u0027141\u0027 y2=\u0027112\u0027 class=\u0027p-line\u0027/\u003e\u003ccircle cx=\u0027155\u0027 cy=\u0027112\u0027 r=\u002714\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003ccircle cx=\u0027155\u0027 cy=\u0027112\u0027 r=\u00274.5\u0027 fill=\u0027#3b82f6\u0027/\u003e\u003crect x=\u0027321\u0027 y=\u002798\u0027 width=\u002728\u0027 height=\u002728\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003cline x1=\u0027349\u0027 y1=\u0027112\u0027 x2=\u0027376\u0027 y2=\u0027112\u0027 class=\u0027p-line\u0027/\u003e\u003ccircle cx=\u0027390\u0027 cy=\u0027112\u0027 r=\u002714\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003cline x1=\u0027130\u0027 y1=\u0027112\u0027 x2=\u0027130\u0027 y2=\u0027142\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027130\u0027 y1=\u0027142\u0027 x2=\u0027155\u0027 y2=\u0027142\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027155\u0027 y1=\u0027142\u0027 x2=\u0027155\u0027 y2=\u0027168\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027362\u0027 y1=\u0027112\u0027 x2=\u0027362\u0027 y2=\u0027142\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027362\u0027 y1=\u0027142\u0027 x2=\u0027335\u0027 y2=\u0027142\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027335\u0027 y1=\u0027142\u0027 x2=\u0027335\u0027 y2=\u0027168\u0027 class=\u0027p-line\u0027/\u003e\u003ctext x=\u002718\u0027 y=\u0027182\u0027 class=\u0027p-text\u0027 fill=\u0027#818cf8\u0027\u003eFâ‚‚\u003c/text\u003e\u003ccircle cx=\u0027155\u0027 cy=\u0027182\u0027 r=\u002714\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003ccircle cx=\u0027155\u0027 cy=\u0027182\u0027 r=\u00274.5\u0027 fill=\u0027#3b82f6\u0027/\u003e\u003cline x1=\u0027169\u0027 y1=\u0027182\u0027 x2=\u0027321\u0027 y2=\u0027182\u0027 class=\u0027p-line\u0027/\u003e\u003crect x=\u0027321\u0027 y=\u0027168\u0027 width=\u002728\u0027 height=\u002728\u0027 fill=\u0027#3b82f6\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003cline x1=\u0027245\u0027 y1=\u0027182\u0027 x2=\u0027245\u0027 y2=\u0027214\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027140\u0027 y1=\u0027214\u0027 x2=\u0027350\u0027 y2=\u0027214\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027140\u0027 y1=\u0027214\u0027 x2=\u0027140\u0027 y2=\u0027238\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027210\u0027 y1=\u0027214\u0027 x2=\u0027210\u0027 y2=\u0027238\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027280\u0027 y1=\u0027214\u0027 x2=\u0027280\u0027 y2=\u0027238\u0027 class=\u0027p-line\u0027/\u003e\u003cline x1=\u0027350\u0027 y1=\u0027214\u0027 x2=\u0027350\u0027 y2=\u0027238\u0027 class=\u0027p-line\u0027/\u003e\u003ctext x=\u002718\u0027 y=\u0027252\u0027 class=\u0027p-text\u0027 fill=\u0027#818cf8\u0027\u003eFâ‚ƒ\u003c/text\u003e\u003crect x=\u0027126\u0027 y=\u0027238\u0027 width=\u002728\u0027 height=\u002728\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003ctext x=\u0027140\u0027 y=\u0027252\u0027 class=\u0027p-qmark\u0027\u003e?\u003c/text\u003e\u003ccircle cx=\u0027210\u0027 cy=\u0027252\u0027 r=\u002714\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003ctext x=\u0027210\u0027 y=\u0027252\u0027 class=\u0027p-qmark\u0027\u003e?\u003c/text\u003e\u003ccircle cx=\u0027280\u0027 cy=\u0027252\u0027 r=\u002714\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003ctext x=\u0027280\u0027 y=\u0027252\u0027 class=\u0027p-qmark\u0027\u003e?\u003c/text\u003e\u003crect x=\u0027336\u0027 y=\u0027238\u0027 width=\u002728\u0027 height=\u002728\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003ctext x=\u0027350\u0027 y=\u0027252\u0027 class=\u0027p-qmark\u0027\u003e?\u003c/text\u003e\u003cg transform=\u0027translate(20, 282)\u0027\u003e\u003crect x=\u00270\u0027 y=\u00272\u0027 width=\u002714\u0027 height=\u002714\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00271.5\u0027/\u003e\u003ctext x=\u002720\u0027 y=\u002714\u0027 fill=\u0027#cbd5e1\u0027 font-size=\u002711\u0027\u003eUnaffected male\u003c/text\u003e\u003crect x=\u0027130\u0027 y=\u00272\u0027 width=\u002714\u0027 height=\u002714\u0027 fill=\u0027#3b82f6\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00271.5\u0027/\u003e\u003ctext x=\u0027150\u0027 y=\u002714\u0027 fill=\u0027#cbd5e1\u0027 font-size=\u002711\u0027\u003eAffected male\u003c/text\u003e\u003ccircle cx=\u0027255\u0027 cy=\u00279\u0027 r=\u00277\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00271.5\u0027/\u003e\u003ccircle cx=\u0027255\u0027 cy=\u00279\u0027 r=\u00272.5\u0027 fill=\u0027#3b82f6\u0027/\u003e\u003ctext x=\u0027268\u0027 y=\u002714\u0027 fill=\u0027#cbd5e1\u0027 font-size=\u002711\u0027\u003eCarrier female\u003c/text\u003e\u003ccircle cx=\u0027365\u0027 cy=\u00279\u0027 r=\u00277\u0027 fill=\u0027#1e293b\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00271.5\u0027/\u003e\u003ctext x=\u0027378\u0027 y=\u002714\u0027 fill=\u0027#cbd5e1\u0027 font-size=\u002711\u0027\u003eUnaffected female\u003c/text\u003e\u003c/g\u003e\u003c/svg\u003e\u003c/div\u003e"
+    },
+    {
+        "id":  11,
+        "answer":  "A",
+        "year":  "NEET 2025",
+        "answerText":  "Phenotypic ratio - 9 : 3 : 3 : 1",
+        "options":  [
+                        "Phenotypic ratio - 9 : 3 : 3 : 1",
+                        "Phenotypic ratio - 9 : 7",
+                        "Phenotypic ratio - 1 : 2 : 1",
+                        "Phenotypic ratio - 3 : 1"
+                    ],
+        "question":  "Genes R and Y follow independent assortment. If RRYY produce round yellow seeds and rryy produce wrinkled green seeds, what will be the phenotypic ratio of the F2 generation?"
+    },
+    {
+        "id":  12,
+        "answer":  "B",
+        "year":  "NEET 2024 (Re-Examination)",
+        "answerText":  "Statement I is false but Statement II is true",
+        "options":  [
+                        "Statement I is true but Statement II is false",
+                        "Statement I is false but Statement II is true",
+                        "Both Statement I and Statement II are true",
+                        "Both Statement I and Statement II are false"
+                    ],
+        "question":  "Given below are two statements:\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eStatement I:\u003c/strong\u003e When many alleles of a single gene govern a character, it is called polygenic inheritance.\u003cbr\u003e\u003cstrong\u003eStatement II:\u003c/strong\u003e In Polygenic inheritance, the effect of each allele is additive.\u003cbr\u003e\u003cbr\u003eIn the light of the above statements, choose the correct answer from the options given below."
+    },
+    {
+        "id":  13,
+        "answer":  "B",
+        "year":  "NEET 2024 (Re-Examination)",
+        "answerText":  "A-II, B-I, C-IV, D-III",
+        "options":  [
+                        "A-III, B-IV, C-II, D-I",
+                        "A-II, B-I, C-IV, D-III",
+                        "A-II, B-III, C-I, D-IV",
+                        "A-IV, B-I, C-III, D-II"
+                    ],
+        "question":  "Match List-I with List-II:\u003cbr\u003e\u003cdiv class=\u0027match-table-wrap\u0027\u003e\u003ctable class=\u0027match-table\u0027\u003e\u003cthead\u003e\u003ctr\u003e\u003cth\u003eList - I (Type of Inheritance)\u003c/th\u003e\u003cth\u003eList - II (Example)\u003c/th\u003e\u003c/tr\u003e\u003c/thead\u003e\u003ctbody\u003e\u003ctr\u003e\u003ctd\u003e(A) Incomplete dominance\u003c/td\u003e\u003ctd\u003e(I) Blood groups in human\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e(B) Co-dominance\u003c/td\u003e\u003ctd\u003e(II) Flower colour in Antirrhinum\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e(C) Pleiotropy\u003c/td\u003e\u003ctd\u003e(III) Skin colour in human\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e(D) Polygenic inheritance\u003c/td\u003e\u003ctd\u003e(IV) Phenylketonuria\u003c/td\u003e\u003c/tr\u003e\u003c/tbody\u003e\u003c/table\u003e\u003c/div\u003eChoose the correct answer from the options given below:"
+    },
+    {
+        "id":  14,
+        "answer":  "D",
+        "year":  "NEET 2024 (Re-Examination)",
+        "answerText":  "TTRr",
+        "options":  [
+                        "TtRr",
+                        "TtRR",
+                        "TTRR",
+                        "TTRr"
+                    ],
+        "question":  "When a tall pea plant with round seeds was selfed, it produced the progeny of :\u003cbr\u003e(a) Tall plants with round seeds and\u003cbr\u003e(b) Tall plants with wrinkled seeds.\u003cbr\u003e\u003cbr\u003eIdentify the genotype of the parent plant."
+    },
+    {
+        "id":  15,
+        "answer":  "D",
+        "year":  "NEET 2024 (Re-Examination)",
+        "answerText":  "B and C only",
+        "options":  [
+                        "C and D only",
+                        "D and E only",
+                        "A and B only",
+                        "B and C only"
+                    ],
+        "question":  "Aneuploidy is a chromosomal disorder where chromosome number is not the exact copy of its haploid set of chromosomes, due to :\u003cbr\u003eA. Substitution\u003cbr\u003eB. Addition\u003cbr\u003eC. Deletion\u003cbr\u003eD. Translocation\u003cbr\u003eE. Inversion\u003cbr\u003e\u003cbr\u003eChoose the most appropriate answer from the options given below :"
+    },
+    {
+        "id":  16,
+        "answer":  "D",
+        "year":  "NEET 2024 (Re-Examination)",
+        "answerText":  "B and E",
+        "options":  [
+                        "C and D",
+                        "D and A",
+                        "A and B",
+                        "B and E"
+                    ],
+        "question":  "The mother has A+ blood group the father has B+ and the child is A+. What can be the possibility of genotypes of all three, respectively?\u003cbr\u003eA. I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eA\u003c/sup\u003e | I\u003csup\u003eB\u003c/sup\u003eI\u003csup\u003eB\u003c/sup\u003e | I\u003csup\u003eB\u003c/sup\u003ei\u003cbr\u003eB. I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eA\u003c/sup\u003e | I\u003csup\u003eB\u003c/sup\u003ei | I\u003csup\u003eA\u003c/sup\u003ei\u003cbr\u003eC. I\u003csup\u003eB\u003c/sup\u003ei | I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eA\u003c/sup\u003e | I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eB\u003c/sup\u003e\u003cbr\u003eD. I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eA\u003c/sup\u003e | I\u003csup\u003eB\u003c/sup\u003eI\u003csup\u003eB\u003c/sup\u003e | I\u003csup\u003eA\u003c/sup\u003ei\u003cbr\u003eE. I\u003csup\u003eA\u003c/sup\u003ei | I\u003csup\u003eB\u003c/sup\u003ei | I\u003csup\u003eA\u003c/sup\u003ei\u003cbr\u003e\u003cbr\u003eChoose the correct answer from the options given below:"
+    },
+    {
+        "id":  17,
+        "answer":  "B",
+        "year":  "NEET 2024",
+        "answerText":  "A, C, D and E only",
+        "options":  [
+                        "A, B and C only",
+                        "A, C, D and E only",
+                        "B, C and D only",
+                        "A, B, C, D and E"
+                    ],
+        "question":  "Which one of the following can be explained on the basis of Mendel\u0027s Law of Dominance?\u003cbr\u003eA. Out of one pair of factors one is dominant and the other is recessive.\u003cbr\u003eB. Alleles do not show any expression and both the characters appear as such in F2 generation.\u003cbr\u003eC. Factors occur in pairs in normal diploid plants.\u003cbr\u003eD. The discrete unit controlling a particular character is called factor.\u003cbr\u003eE. The expression of only one of the parental characters is found in a monohybrid cross.\u003cbr\u003e\u003cbr\u003eChoose the correct answer from the options given below:"
+    },
+    {
+        "id":  18,
+        "answer":  "B",
+        "year":  "NEET 2024",
+        "answerText":  "Red flowered as well as pink flowered plants",
+        "options":  [
+                        "Only red flowered plants",
+                        "Red flowered as well as pink flowered plants",
+                        "Only pink flowered plants",
+                        "Red, Pink as well as white flowered plants"
+                    ],
+        "question":  "A pink flowered Snapdragon plant was crossed with a red flowered Snapdragon plant. What type of phenotype/s is/are expected in the progeny?"
+    },
+    {
+        "id":  19,
+        "answer":  "B",
+        "year":  "NEET 2024",
+        "answerText":  "bb",
+        "options":  [
+                        "BB",
+                        "bb",
+                        "Bb",
+                        "BB/Bb"
+                    ],
+        "question":  "In a plant, black seed color (BB/Bb) is dominant over white seed color (bb). In order to find out the genotype of the black seed plant, with which of the following genotype will you cross it?"
+    },
+    {
+        "id":  20,
+        "answer":  "C",
+        "year":  "NEET 2024",
+        "answerText":  "A-III, B-IV, C-I, D-II",
+        "options":  [
+                        "A-I, B-II, C-III, D-IV",
+                        "A-II, B-I, C-III, D-IV",
+                        "A-III, B-IV, C-I, D-II",
+                        "A-IV, B-III, C-II, D-I"
+                    ],
+        "question":  "Match List I with List II\u003cbr\u003e\u003cdiv class=\u0027match-table-wrap\u0027\u003e\u003ctable class=\u0027match-table\u0027\u003e\u003cthead\u003e\u003ctr\u003e\u003cth\u003eList - I\u003c/th\u003e\u003cth\u003eList - II\u003c/th\u003e\u003c/tr\u003e\u003c/thead\u003e\u003ctbody\u003e\u003ctr\u003e\u003ctd\u003eA. Two or more alternative forms of a gene\u003c/td\u003e\u003ctd\u003eI. Back cross\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eB. Cross of F1 progeny with homozygous recessive parent\u003c/td\u003e\u003ctd\u003eII. Ploidy\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eC. Cross of F1 progeny with any of the parents\u003c/td\u003e\u003ctd\u003eIII. Allele\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003eD. Number of chromosome sets in plant\u003c/td\u003e\u003ctd\u003eIV. Test cross\u003c/td\u003e\u003c/tr\u003e\u003c/tbody\u003e\u003c/table\u003e\u003c/div\u003eChoose the correct answer from the options given below:"
+    },
+    {
+        "id":  21,
+        "answer":  "A",
+        "year":  "NEET 2024",
+        "answerText":  "A only",
+        "options":  [
+                        "A only",
+                        "B only",
+                        "C \u0026 B only",
+                        "D \u0026 E only"
+                    ],
+        "question":  "As per ABO blood grouping system, the blood group of father is B\u003csup\u003e+\u003c/sup\u003e, mother is A\u003csup\u003e+\u003c/sup\u003e and child is O\u003csup\u003e+\u003c/sup\u003e. Their respective genotype can be\u003cbr\u003eA. I\u003csup\u003eB\u003c/sup\u003ei / I\u003csup\u003eA\u003c/sup\u003ei / ii\u003cbr\u003eB. I\u003csup\u003eB\u003c/sup\u003eI\u003csup\u003eB\u003c/sup\u003e / I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eA\u003c/sup\u003e / ii\u003cbr\u003eC. iI\u003csup\u003eB\u003c/sup\u003e / iI\u003csup\u003eA\u003c/sup\u003e / I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eB\u003c/sup\u003e\u003cbr\u003eD. I\u003csup\u003eA\u003c/sup\u003ei / I\u003csup\u003eB\u003c/sup\u003ei / I\u003csup\u003eA\u003c/sup\u003ei\u003cbr\u003eE. iI\u003csup\u003eB\u003c/sup\u003e / iI\u003csup\u003eA\u003c/sup\u003e / I\u003csup\u003eA\u003c/sup\u003eI\u003csup\u003eB\u003c/sup\u003e\u003cbr\u003e\u003cbr\u003eChoose the most appropriate answer from the options given below :"
+    },
+    {
+        "id":  22,
+        "answer":  "A",
+        "year":  "NEET 2023 Manipur",
+        "answerText":  "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+        "options":  [
+                        "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+                        "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+                        "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)",
+                        "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+                    ],
+        "question":  "Match List - I with List - II.\u003cbr\u003e\u003cdiv class=\u0027match-table-wrap\u0027\u003e\u003ctable class=\u0027match-table\u0027\u003e\u003cthead\u003e\u003ctr\u003e\u003cth\u003eList - I\u003c/th\u003e\u003cth\u003eList - II\u003c/th\u003e\u003c/tr\u003e\u003c/thead\u003e\u003ctbody\u003e\u003ctr\u003e\u003ctd\u003e(A) Monohybrid Cross\u003c/td\u003e\u003ctd\u003e(I) 1 : 1\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e(B) Dihybrid Cross\u003c/td\u003e\u003ctd\u003e(II) 1 : 2 : 1\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e(C) Incomplete dominance\u003c/td\u003e\u003ctd\u003e(III) 3 : 1\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e(D) Test Cross\u003c/td\u003e\u003ctd\u003e(IV) 9 : 3 : 3 : 1\u003c/td\u003e\u003c/tr\u003e\u003c/tbody\u003e\u003c/table\u003e\u003c/div\u003eChoose the correct answer from the options given below :"
+    },
+    {
+        "id":  23,
+        "answer":  "B",
+        "year":  "NEET 2023 Manipur",
+        "answerText":  "20 produced violet and 20 produced white flowers",
+        "options":  [
+                        "30 produced violet and 10 produced white flowers",
+                        "20 produced violet and 20 produced white flowers",
+                        "All 40 produced violet flowers",
+                        "All 40 produced white flowers"
+                    ],
+        "question":  "A heterozygous pea plant with violet flowers was crossed with homozygous pea plant with white flower. Violet is dominant over white. Which one of the following represents the expected combinations among 40 progenies formed?"
+    },
+    {
+        "id":  24,
+        "answer":  "B",
+        "year":  "NEET 2023 Manipur",
+        "answerText":  "Sickle cell anemia",
+        "options":  [
+                        "Thalassemia",
+                        "Sickle cell anemia",
+                        "Haemophilia",
+                        "Phenylketonuria"
+                    ],
+        "question":  "In which disorder change of single base pair in the gene for beta globin chain results in change of glutamic acid to valine ?"
+    },
+    {
+        "id":  25,
+        "answer":  "D",
+        "year":  "NEET 2023 Manipur",
+        "answerText":  "6",
+        "options":  [
+                        "9",
+                        "16",
+                        "4",
+                        "6"
+                    ],
+        "question":  "A certain plant homozygous for yellow seeds and red flowers was crossed with a plant homozygous for green seeds and white flowers. The F1 plants had yellow seeds and pink flowers. The F1 plants were selfed to get F2 progeny. Assuming independent assortment of the two characters, how many phenotypic categories are expected for these characters in the F2 generation ?"
+    },
+    {
+        "id":  26,
+        "answer":  "A",
+        "year":  "NEET 2023 Manipur",
+        "answerText":  "(B) and (D) only",
+        "options":  [
+                        "(B) and (D) only",
+                        "(A), (C) and (D) only",
+                        "(A) only",
+                        "(A) and (C) only"
+                    ],
+        "question":  "Select the correct statement/s with respect to mechanism of sex determination in Grasshopper.\u003cbr\u003e(A) It is an example of female heterogamety.\u003cbr\u003e(B) Male produces two different types of gametes either with or without X chromosome.\u003cbr\u003e(C) Total number of chromosomes (autosomes and sex chromosomes) is same in both males and females.\u003cbr\u003e(D) All eggs bear an additional X chromosome besides the autosomes.\u003cbr\u003e\u003cbr\u003eChoose the correct answer from the options given below :"
+    },
+    {
+        "id":  27,
+        "answer":  "B",
+        "year":  "NEET 2023",
+        "answerText":  "Alfred Sturtevant",
+        "options":  [
+                        "Sutton and Boveri",
+                        "Alfred Sturtevant",
+                        "Henking",
+                        "Thomas Hunt Morgan"
+                    ],
+        "question":  "Frequency of recombination between gene pairs on same chromosome as a measure of the distance between genes to map their position on chromosome, was used for the first time by"
+    },
+    {
+        "id":  28,
+        "answer":  "B",
+        "year":  "NEET 2023",
+        "answerText":  "A single gene affecting multiple phenotypic expression",
+        "options":  [
+                        "Presence of two alleles, each of the two genes controlling a single trait",
+                        "A single gene affecting multiple phenotypic expression",
+                        "More than two genes affecting a single character",
+                        "Presence of several alleles of a single gene controlling a single crossover"
+                    ],
+        "question":  "The phenomenon of pleiotropism refers to"
+    },
+    {
+        "id":  29,
+        "answer":  "B",
+        "year":  "NEET 2023",
+        "answerText":  "B and E only",
+        "options":  [
+                        "C and D only",
+                        "B and E only",
+                        "A and E only",
+                        "A and B only"
+                    ],
+        "question":  "Which of the following statements are correct about Klinefelterâ€™s Syndrome?\u003cbr\u003eA. This disorder was first described by Langdon Down (1866).\u003cbr\u003eB. Such an individual has overall masculine development. However, the feminine development is also expressed.\u003cbr\u003eC. The affected individual is short statured.\u003cbr\u003eD. Physical, psychomotor and mental development is retarded.\u003cbr\u003eE. Such individuals are sterile.\u003cbr\u003e\u003cbr\u003eChoose the correct answer from the options given below :"
+    },
+    {
+        "id":  30,
+        "answer":  "D",
+        "year":  "NEET 2023",
+        "answerText":  "Downâ€™s syndrome",
+        "options":  [
+                        "Turnerâ€™s syndrome",
+                        "Klinefelterâ€™s syndrome",
+                        "Thalassemia",
+                        "Downâ€™s syndrome"
+                    ],
+        "question":  "Broad palm with single palm crease is visible in a person suffering from-"
+    },
+    {
+        "id":  31,
+        "answer":  "A",
+        "year":  "NEET 2023",
+        "answerText":  "\u003cdiv style=\u0027display:flex;align-items:center;gap:12px;\u0027\u003e\u003csvg width=\u0027110\u0027 height=\u002732\u0027 viewBox=\u00270 0 110 32\u0027\u003e\u003crect x=\u00272\u0027 y=\u00274\u0027 width=\u002724\u0027 height=\u002724\u0027 fill=\u0027none\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003cline x1=\u002726\u0027 y1=\u002711\u0027 x2=\u002782\u0027 y2=\u002711\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003cline x1=\u002726\u0027 y1=\u002721\u0027 x2=\u002782\u0027 y2=\u002721\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003ccircle cx=\u002795\u0027 cy=\u002716\u0027 r=\u002712\u0027 fill=\u0027none\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003c/svg\u003e\u003cspan\u003eConsanguineous mating (mating between relatives)\u003c/span\u003e\u003c/div\u003e",
+        "options":  [
+                        "\u003cdiv style=\u0027display:flex;align-items:center;gap:12px;\u0027\u003e\u003csvg width=\u0027110\u0027 height=\u002732\u0027 viewBox=\u00270 0 110 32\u0027\u003e\u003crect x=\u00272\u0027 y=\u00274\u0027 width=\u002724\u0027 height=\u002724\u0027 fill=\u0027none\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003cline x1=\u002726\u0027 y1=\u002711\u0027 x2=\u002782\u0027 y2=\u002711\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003cline x1=\u002726\u0027 y1=\u002721\u0027 x2=\u002782\u0027 y2=\u002721\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003ccircle cx=\u002795\u0027 cy=\u002716\u0027 r=\u002712\u0027 fill=\u0027none\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003c/svg\u003e\u003cspan\u003eConsanguineous mating (mating between relatives)\u003c/span\u003e\u003c/div\u003e",
+                        "\u003cdiv style=\u0027display:flex;align-items:center;gap:12px;\u0027\u003e\u003csvg width=\u0027100\u0027 height=\u002740\u0027 viewBox=\u00270 0 100 40\u0027\u003e\u003crect x=\u00272\u0027 y=\u00272\u0027 width=\u002718\u0027 height=\u002718\u0027 fill=\u0027none\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003cline x1=\u002720\u0027 y1=\u002711\u0027 x2=\u002778\u0027 y2=\u002711\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003ccircle cx=\u002788\u0027 cy=\u002711\u0027 r=\u00279\u0027 fill=\u0027none\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003cline x1=\u002749\u0027 y1=\u002711\u0027 x2=\u002749\u0027 y2=\u002724\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003crect x=\u002740\u0027 y=\u002724\u0027 width=\u002718\u0027 height=\u002715\u0027 fill=\u0027#3b82f6\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272\u0027/\u003e\u003c/svg\u003e\u003cspan\u003eParents with male child affected with disease\u003c/span\u003e\u003c/div\u003e",
+                        "\u003cdiv style=\u0027display:flex;align-items:center;gap:12px;\u0027\u003e\u003csvg width=\u002795\u0027 height=\u002730\u0027 viewBox=\u00270 0 95 30\u0027\u003e\u003crect x=\u00272\u0027 y=\u00276\u0027 width=\u002718\u0027 height=\u002718\u0027 fill=\u0027#3b82f6\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00271.5\u0027/\u003e\u003ccircle cx=\u002746\u0027 cy=\u002715\u0027 r=\u00279\u0027 fill=\u0027#3b82f6\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00271.5\u0027/\u003e\u003cpolygon points=\u002780,6 90,15 80,24 70,15\u0027 fill=\u0027#3b82f6\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00271.5\u0027/\u003e\u003c/svg\u003e\u003cspan\u003eAffected individuals (male, female, sex unspecified)\u003c/span\u003e\u003c/div\u003e",
+                        "\u003cdiv style=\u0027display:flex;align-items:center;gap:12px;\u0027\u003e\u003csvg width=\u0027110\u0027 height=\u002732\u0027 viewBox=\u00270 0 110 32\u0027\u003e\u003crect x=\u00272\u0027 y=\u00274\u0027 width=\u002724\u0027 height=\u002724\u0027 fill=\u0027none\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003cline x1=\u002726\u0027 y1=\u002716\u0027 x2=\u002782\u0027 y2=\u002716\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003ccircle cx=\u002795\u0027 cy=\u002716\u0027 r=\u002712\u0027 fill=\u0027none\u0027 stroke=\u0027#60a5fa\u0027 stroke-width=\u00272.5\u0027/\u003e\u003c/svg\u003e\u003cspan\u003eNormal mating between non-relatives\u003c/span\u003e\u003c/div\u003e"
+                    ],
+        "question":  "Which one of the following symbols represents mating between relatives in human pedigree analysis?"
+    },
+    {
+        "id":  32,
+        "answer":  "A",
+        "year":  "NEET 2022 Phase 2",
+        "answerText":  "Statement I is incorrect but Statement II is correct",
+        "options":  [
+                        "Statement I is incorrect but Statement II is correct",
+                        "Both Statement I and Statement II are correct",
+                        "Both Statement I and Statement II are incorrect",
+                        "Statement I is correct but Statement II is incorrect"
+                    ],
+        "question":  "Given below are two statements:\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eStatement I :\u003c/strong\u003e Sickle cell anaemia and haemophilia are autosomal dominant traits.\u003cbr\u003e\u003cstrong\u003eStatement II :\u003c/strong\u003e Sickle cell anaemia and haemophilia are disorders of the blood.\u003cbr\u003e\u003cbr\u003eIn the light of the above statements, choose the correct answer from the options given below :"
+    },
+    {
+        "id":  33,
+        "answer":  "C",
+        "year":  "NEET 2022 Phase 2",
+        "answerText":  "Recombinase",
+        "options":  [
+                        "Polymerase",
+                        "Phosphorylase",
+                        "Recombinase",
+                        "Transferase"
+                    ],
+        "question":  "In meiosis, crossing over and exchange of genetic material between homologous chromosomes are catalyzed by the enzyme"
+    },
+    {
+        "id":  34,
+        "answer":  "C",
+        "year":  "NEET 2022 Phase 2",
+        "answerText":  "Sutton and Boveri",
+        "options":  [
+                        "Robert Brown",
+                        "Thomas Morgan",
+                        "Sutton and Boveri",
+                        "Gregor Mendel"
+                    ],
+        "question":  "The chromosomal theory of inheritance was proposed by"
+    },
+    {
+        "id":  35,
+        "answer":  "D",
+        "year":  "NEET 2022 Phase 2",
+        "answerText":  "18.75%",
+        "options":  [
+                        "9%",
+                        "100%",
+                        "56.25%",
+                        "18.75%"
+                    ],
+        "question":  "What is the expected percentage of F2 progeny with yellow and inflated pod in dihybrid cross experiment involving pea plants with green coloured, inflated pod and yellow coloured constricted pod?"
+    },
+    {
+        "id":  36,
+        "answer":  "A",
+        "year":  "NEET 2022 Phase 2",
+        "answerText":  "Trisomy of chromosome 21",
+        "options":  [
+                        "Trisomy of chromosome 21",
+                        "47 chromosomes with XXY sex chromosomes",
+                        "45 chromosomes with XO sex chromosomes",
+                        "47 chromosomes with XYY sex chromosomes"
+                    ],
+        "question":  "If a female individual is with small round head, furrowed tongue, partially open mouth and broad palm with characteristic palm crease. Also the physical, psychomotor and mental development is retarded. The karyotype analysis of such an individual will show :"
+    },
+    {
+        "id":  37,
+        "answer":  "D",
+        "year":  "NEET 2022 Phase 2",
+        "answerText":  "Consanguineous mating \u0026mdash; (Square connected by single horizontal line to circle)",
+        "options":  [
+                        "Parent with male child affected with disease \u0026mdash; (Square connected to circle with child as affected filled square)",
+                        "Sex unspecified \u0026mdash; (Diamond symbol)",
+                        "Affected individual \u0026mdash; (Filled square symbol)",
+                        "Consanguineous mating \u0026mdash; (Square connected by single horizontal line to circle)"
+                    ],
+        "question":  "Select the incorrect match regarding the symbols used in the Pedigree analysis:"
+    },
+    {
+        "id":  38,
+        "answer":  "C",
+        "year":  "NEET 2022 Phase 2",
+        "answerText":  "(b) and (c) only",
+        "options":  [
+                        "(b) and (d) only",
+                        "(a) and (b) only",
+                        "(b) and (c) only",
+                        "(a) and (d) only"
+                    ],
+        "question":  "A normal girl, whose mother is haemophilic marries a male with no ancestral history of haemophilia. What will be the possible phenotypes of the offspring?\u003cbr\u003e(a) Haemophilic son and haemophilic daughter.\u003cbr\u003e(b) Haemophilic son and carrier daughter.\u003cbr\u003e(c) Normal daughter and normal son.\u003cbr\u003e(d) Normal son and haemophilic daughter.\u003cbr\u003e\u003cbr\u003eChoose the most appropriate answer from the options given below:"
+    },
+    {
+        "id":  39,
+        "answer":  "C",
+        "year":  "NEET 2022 Phase 1",
+        "answerText":  "Grasshoppers",
+        "options":  [
+                        "Drosophila",
+                        "Birds",
+                        "Grasshoppers",
+                        "Monkeys"
+                    ],
+        "question":  "XO type of sex determination can be found in :"
+    },
+    {
+        "id":  40,
+        "answer":  "A",
+        "year":  "NEET 2022 Phase 1",
+        "answerText":  "Both Statement I and Statement II are correct",
+        "options":  [
+                        "Both Statement I and Statement II are correct",
+                        "Both Statement I and Statement II are incorrect",
+                        "Statement I is correct but Statement II is incorrect",
+                        "Statement I is incorrect but Statement II is correct"
+                    ],
+        "question":  "Given below are two statements:\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eStatement I :\u003c/strong\u003e Mendel studied seven pairs of contrasting traits in pea plants and proposed the Laws of Inheritance.\u003cbr\u003e\u003cstrong\u003eStatement II :\u003c/strong\u003e Seven characters examined by Mendel in his experiment on pea plants were seed shape and colour, flower colour, pod shape and colour, flower position and stem height.\u003cbr\u003e\u003cbr\u003eIn the light of the above statements, choose the correct answer from the options given below :"
+    },
+    {
+        "id":  41,
+        "answer":  "B",
+        "year":  "NEET 2022 Phase 1",
+        "answerText":  "Myotonic dystrophy",
+        "options":  [
+                        "Sickle cell anaemia",
+                        "Myotonic dystrophy",
+                        "Haemophilia",
+                        "Thalessemia"
+                    ],
+        "question":  "Which of the following occurs due to the presence of autosome linked dominant trait?"
+    },
+    {
+        "id":  42,
+        "answer":  "C",
+        "year":  "NEET 2022 Phase 1",
+        "answerText":  "(A) is correct but (R) is not correct",
+        "options":  [
+                        "Both (A) and (R) are correct and (R) is the correct explanation of (A)",
+                        "Both (A) and (R) are correct but (R) is not the correct explanation of (A)",
+                        "(A) is correct but (R) is not correct",
+                        "(A) is not correct but (R) is correct"
+                    ],
+        "question":  "Given below are two statements : one is labelled as Assertion (A) and the other is labelled as Reason (R).\u003cbr\u003e\u003cbr\u003e\u003cstrong\u003eAssertion (A) :\u003c/strong\u003e Mendel\u0027s law of independent assortment does not hold good for the genes that are located closely on the same chromosome.\u003cbr\u003e\u003cstrong\u003eReason (R) :\u003c/strong\u003e Closely located genes assort independently.\u003cbr\u003e\u003cbr\u003eIn the light of the above statements, choose the correct answer from the options given below :"
+    },
+    {
+        "id":  43,
+        "answer":  "D",
+        "year":  "NEET 2022 Phase 1",
+        "answerText":  "100%",
+        "options":  [
+                        "25%",
+                        "50%",
+                        "75%",
+                        "100%"
+                    ],
+        "question":  "If a colour blind female marries a man whose mother was also colour blind, what are the chances of her progeny having colour blindness?"
+    },
+    {
+        "id":  44,
+        "answer":  "D",
+        "year":  "NEET 2022 Phase 1",
+        "answerText":  "a, c, b, d",
+        "options":  [
+                        "a, d, b, c",
+                        "d, b, a, c",
+                        "a, b, c, d",
+                        "a, c, b, d"
+                    ],
+        "question":  "The recombination frequency between the genes a \u0026 c is 5%, b \u0026 c is 15%, b \u0026 d is 9%, a \u0026 b is 20%, c \u0026 d is 24% and a \u0026 d is 29%. What will be the sequence of these genes on a linear chromosome?"
+    },
+    {
+        "id":  45,
+        "answer":  "D",
+        "year":  "NEET 2021",
+        "answerText":  "Punnett square",
+        "options":  [
+                        "Net square",
+                        "Bullet square",
+                        "Punch square",
+                        "Punnett square"
+                    ],
+        "question":  "The production of gametes by the parents, formation of zygotes, the F1 and F2 plants, can be understood from a diagram called :"
+    },
+    {
+        "id":  46,
+        "answer":  "D",
+        "year":  "NEET 2021",
+        "answerText":  "25%",
+        "options":  [
+                        "100%",
+                        "50%",
+                        "75%",
+                        "25%"
+                    ],
+        "question":  "In a cross between a male and female, both heterozygous for sickle cell anaemia gene, what percentage of the progeny will be diseased?"
+    },
+    {
+        "id":  47,
+        "answer":  "B",
+        "year":  "NEET 2020 Phase 2",
+        "answerText":  "Sutton and Boveri",
+        "options":  [
+                        "Watson and Crick",
+                        "Sutton and Boveri",
+                        "Bateson and Punnet",
+                        "T. H. Morgan"
+                    ],
+        "question":  "Chromosomal theory of inheritance was proposed by :"
+    },
+    {
+        "id":  48,
+        "answer":  "A",
+        "year":  "NEET 2020 Phase 2",
+        "answerText":  "7",
+        "options":  [
+                        "7",
+                        "14",
+                        "4",
+                        "2"
+                    ],
+        "question":  "The number of contrasting characters studied by Mendel for his experiments was :"
+    },
+    {
+        "id":  49,
+        "answer":  "C",
+        "year":  "NEET 2020 Phase 2",
+        "answerText":  "Phenylketoneuria",
+        "options":  [
+                        "ABO Blood group",
+                        "Skin colour",
+                        "Phenylketoneuria",
+                        "Colour Blindness"
+                    ],
+        "question":  "The best example for pleiotropy is :"
+    },
+    {
+        "id":  50,
+        "answer":  "C",
+        "year":  "NEET 2020 Phase 1",
+        "answerText":  "Morgan",
+        "options":  [
+                        "Sutton",
+                        "Mendel",
+                        "Morgan",
+                        "Boveri"
+                    ],
+        "question":  "Experimental verification of the chromosomal theory of inheritance was done by"
+    }
+];
+
+    /* -------------------------------------------------------------------------
+       State Management
+       ------------------------------------------------------------------------- */
+    let currentQuestion = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let timerInterval = null;
+    let secondsElapsed = 0;
+
+    /* DOM Element References */
+    const screenLanding = document.getElementById("screenLanding");
+    const screenQuiz = document.getElementById("screenQuiz");
+    const screenResults = document.getElementById("screenResults");
+
+    const btnStartQuiz = document.getElementById("btnStartQuiz");
+    const currentQDisplay = document.getElementById("currentQDisplay");
+    const progressBar = document.getElementById("progressBar");
+    const timerText = document.getElementById("timerText");
+    const answeredCountText = document.getElementById("answeredCountText");
+
+    const qSourceBadge = document.getElementById("qSourceBadge");
+    const qCounterPill = document.getElementById("qCounterPill");
+    const qCardContent = document.getElementById("qCardContent");
+    const optionsContainer = document.getElementById("optionsContainer");
+
+    const btnPrev = document.getElementById("btnPrev");
+    const btnNext = document.getElementById("btnNext");
+    const btnClearAns = document.getElementById("btnClearAns");
+
+    const btnOpenDrawer = document.getElementById("btnOpenDrawer");
+    const btnCloseDrawer = document.getElementById("btnCloseDrawer");
+    const drawerOverlay = document.getElementById("drawerOverlay");
+    const gridPills = document.getElementById("gridPills");
+
+    const confirmOverlay = document.getElementById("confirmOverlay");
+    const confirmTitle = document.getElementById("confirmTitle");
+    const confirmDesc = document.getElementById("confirmDesc");
+    const btnCancelSubmit = document.getElementById("btnCancelSubmit");
+    const btnConfirmSubmit = document.getElementById("btnConfirmSubmit");
+
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const scoreRing = document.getElementById("scoreRing");
+    const perfBadge = document.getElementById("perfBadge");
+    const perfTitle = document.getElementById("perfTitle");
+    const perfSubtitle = document.getElementById("perfSubtitle");
+    const statAccuracy = document.getElementById("statAccuracy");
+    const statCorrect = document.getElementById("statCorrect");
+    const statIncorrect = document.getElementById("statIncorrect");
+    const statTime = document.getElementById("statTime");
+    const btnRetake = document.getElementById("btnRetake");
+    const btnHome = document.getElementById("btnHome");
+    const reviewCardsList = document.getElementById("reviewCardsList");
+
+    /* -------------------------------------------------------------------------
+       Screen Switching
+       ------------------------------------------------------------------------- */
+    function showScreen(screen) {
+      [screenLanding, screenQuiz, screenResults].forEach(s => s.classList.remove("active"));
+      screen.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    /* -------------------------------------------------------------------------
+       Timer Management
+       ------------------------------------------------------------------------- */
+    function startTimer() {
+      stopTimer();
+      secondsElapsed = 0;
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        updateTimerDisplay();
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function formatTime(totalSeconds) {
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    }
+
+    function updateTimerDisplay() {
+      timerText.textContent = formatTime(secondsElapsed);
+    }
+
+    /* -------------------------------------------------------------------------
+       Quiz Core Logic
+       ------------------------------------------------------------------------- */
+    function startQuiz() {
+      currentQuestion = 0;
+      userAnswers = new Array(questions.length).fill(null);
+      showScreen(screenQuiz);
+      startTimer();
+      loadQuestion(0);
+      updateMeta();
+    }
+
+    function loadQuestion(index) {
+      currentQuestion = index;
+      const q = questions[index];
+
+      // Update Header Text & Progress
+      currentQDisplay.textContent = `Question ${index + 1}`;
+      const progressPercent = ((index + 1) / questions.length) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      // Update Question Card
+      qSourceBadge.textContent = q.year || "NEET Biology";
+      qCounterPill.textContent = `Question ${index + 1} of ${questions.length}`;
+      qCardContent.innerHTML = q.question;
+
+      // Render Options
+      optionsContainer.innerHTML = "";
+      const badgeLetters = ["A", "B", "C", "D"];
+
+      q.options.forEach((optText, optIdx) => {
+        const letter = badgeLetters[optIdx];
+        const optionCard = document.createElement("div");
+        optionCard.className = "option-card";
+        optionCard.setAttribute("role", "radio");
+        optionCard.setAttribute("tabindex", "0");
+        optionCard.setAttribute("data-letter", letter);
+
+        const isSelected = (userAnswers[index] === letter);
+        if (isSelected) {
+          optionCard.classList.add("selected");
+          optionCard.setAttribute("aria-checked", "true");
+        } else {
+          optionCard.setAttribute("aria-checked", "false");
+        }
+
+        optionCard.innerHTML = `
+          <div class="option-badge">${letter}</div>
+          <div class="option-label">
+            <span>${optText}</span>
+          </div>
+          <div class="option-check-icon">
+            <svg viewBox="0 0 24 24">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+        `;
+
+        // Click Selection with coordinates for celebration burst
+        optionCard.addEventListener("click", (e) => {
+          const x = e.clientX || (optionCard.getBoundingClientRect().left + optionCard.offsetWidth / 2);
+          const y = e.clientY || (optionCard.getBoundingClientRect().top + optionCard.offsetHeight / 2);
+          selectAnswer(letter, { x, y });
+        });
+
+        // Keyboard Selection (Enter / Space)
+        optionCard.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            const rect = optionCard.getBoundingClientRect();
+            selectAnswer(letter, { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+          }
+        });
+
+        optionsContainer.appendChild(optionCard);
+      });
+
+      // Update Navigation Buttons
+      btnPrev.disabled = (index === 0);
+      if (index === questions.length - 1) {
+        btnNext.innerHTML = `
+          Finish Quiz
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        `;
+        btnNext.classList.add("btn-finish");
+      } else {
+        btnNext.innerHTML = `
+          Next
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        `;
+        btnNext.classList.remove("btn-finish");
+      }
+
+      updateMeta();
+    }
+
+    function selectAnswer(letter, originCoords) {
+      userAnswers[currentQuestion] = letter;
+      
+      // Update UI cards
+      const cards = optionsContainer.querySelectorAll(".option-card");
+      cards.forEach(card => {
+        if (card.getAttribute("data-letter") === letter) {
+          card.classList.add("selected");
+          card.setAttribute("aria-checked", "true");
+          // Trigger cracker burst animation on card
+          card.classList.remove("cracker-burst");
+          void card.offsetWidth; // trigger reflow
+          card.classList.add("cracker-burst");
+
+          if (!originCoords) {
+            const rect = card.getBoundingClientRect();
+            originCoords = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+          }
+        } else {
+          card.classList.remove("selected");
+          card.setAttribute("aria-checked", "false");
+        }
+      });
+
+      // Launch full cracker particle burst
+      if (originCoords && typeof originCoords.x === "number") {
+        triggerCrackers(originCoords.x, originCoords.y);
+      } else {
+        triggerCrackers(window.innerWidth / 2, window.innerHeight / 2);
+      }
+
+      updateMeta();
+    }
+
+    function clearCurrentAnswer() {
+      userAnswers[currentQuestion] = null;
+      const cards = optionsContainer.querySelectorAll(".option-card");
+      cards.forEach(card => {
+        card.classList.remove("selected");
+        card.setAttribute("aria-checked", "false");
+      });
+      updateMeta();
+    }
+
+    function updateMeta() {
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      answeredCountText.textContent = `${answeredCount}/${questions.length} Answered`;
+    }
+
+    function goToNext() {
+      if (currentQuestion < questions.length - 1) {
+        loadQuestion(currentQuestion + 1);
+      } else {
+        requestSubmit();
+      }
+    }
+
+    function goToPrev() {
+      if (currentQuestion > 0) {
+        loadQuestion(currentQuestion - 1);
+      }
+    }
+
+    /* -------------------------------------------------------------------------
+       Question Navigator Grid Drawer
+       ------------------------------------------------------------------------- */
+    function openDrawer() {
+      gridPills.innerHTML = "";
+      questions.forEach((q, idx) => {
+        const pill = document.createElement("button");
+        pill.className = "nav-pill";
+        pill.textContent = idx + 1;
+        pill.title = `Question ${idx + 1}`;
+
+        if (userAnswers[idx] !== null) {
+          pill.classList.add("answered");
+        }
+        if (idx === currentQuestion) {
+          pill.classList.add("current");
+        }
+
+        pill.addEventListener("click", () => {
+          loadQuestion(idx);
+          closeDrawer();
+        });
+
+        gridPills.appendChild(pill);
+      });
+
+      drawerOverlay.classList.add("active");
+    }
+
+    function closeDrawer() {
+      drawerOverlay.classList.remove("active");
+    }
+
+    /* -------------------------------------------------------------------------
+       Submission Confirmation
+       ------------------------------------------------------------------------- */
+    function requestSubmit() {
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      const unansweredCount = questions.length - answeredCount;
+
+      if (unansweredCount > 0) {
+        confirmTitle.textContent = "Unanswered Questions";
+        confirmDesc.textContent = `You have answered ${answeredCount} of ${questions.length} questions. You still have ${unansweredCount} unanswered. Would you like to review them or submit now?`;
+        btnCancelSubmit.textContent = "Review Remaining";
+      } else {
+        confirmTitle.textContent = "Finish & Submit Quiz?";
+        confirmDesc.textContent = `You have completed all ${questions.length} questions! Ready to see your score and full performance analysis?`;
+        btnCancelSubmit.textContent = "Double Check Answers";
+      }
+
+      confirmOverlay.classList.add("active");
+    }
+
+    function closeConfirm() {
+      confirmOverlay.classList.remove("active");
+    }
+
+    /* -------------------------------------------------------------------------
+       Results & Scoring Engine
+       ------------------------------------------------------------------------- */
+    function submitQuiz() {
+      closeConfirm();
+      stopTimer();
+
+      let correctCount = 0;
+      let incorrectCount = 0;
+      let unansweredCount = 0;
+
+      questions.forEach((q, idx) => {
+        const userChoice = userAnswers[idx];
+        if (userChoice === null) {
+          unansweredCount++;
+        } else if (userChoice === q.answer) {
+          correctCount++;
+        } else {
+          incorrectCount++;
+        }
+      });
+
+      const totalQuestions = questions.length;
+      const accuracyPercent = Math.round((correctCount / totalQuestions) * 100);
+
+      // Populate Stats
+      scoreDisplay.textContent = correctCount;
+      statAccuracy.textContent = `${accuracyPercent}%`;
+      statCorrect.textContent = correctCount;
+      statIncorrect.textContent = incorrectCount;
+      statTime.textContent = formatTime(secondsElapsed);
+
+      // Animated Circular Ring (circumference = 2 * PI * 68 ≈ 427.26)
+      const circumference = 2 * Math.PI * 68;
+      scoreRing.style.strokeDasharray = `${circumference}`;
+      const offset = circumference - (accuracyPercent / 100) * circumference;
+      setTimeout(() => {
+        scoreRing.style.strokeDashoffset = `${offset}`;
+      }, 150);
+
+      // Performance Feedback Tone
+      if (accuracyPercent >= 90) {
+        perfBadge.textContent = "Mastery Level";
+        perfBadge.style.background = "rgba(16, 185, 129, 0.15)";
+        perfBadge.style.color = "#34d399";
+        perfTitle.textContent = "Outstanding Performance! 🏆";
+        perfSubtitle.textContent = "Exceptional conceptual clarity across Principles of Inheritance and Variation NEET questions!";
+      } else if (accuracyPercent >= 75) {
+        perfBadge.textContent = "Distinction";
+        perfBadge.style.background = "rgba(99, 102, 241, 0.15)";
+        perfBadge.style.color = "#a5b4fc";
+        perfTitle.textContent = "Great Job! Well Done! 🌟";
+        perfSubtitle.textContent = "You demonstrated strong mastery with only a few tricky questions to polish.";
+      } else if (accuracyPercent >= 50) {
+        perfBadge.textContent = "Good Effort";
+        perfBadge.style.background = "rgba(245, 158, 11, 0.15)";
+        perfBadge.style.color = "#fbbf24";
+        perfTitle.textContent = "Solid Foundation! 👍";
+        perfSubtitle.textContent = "Review the verified answer explanations below to strengthen your score.";
+      } else {
+        perfBadge.textContent = "Practice Needed";
+        perfBadge.style.background = "rgba(239, 68, 68, 0.15)";
+        perfBadge.style.color = "#f87171";
+        perfTitle.textContent = "Keep Learning & Practicing! 📚";
+        perfSubtitle.textContent = "Carefully review each question and answer below to master Principles of Inheritance and Variation concepts.";
+      }
+
+      // Update filter badge counts
+      const btnFilterAll = document.querySelector('.btn-filter[data-filter="all"]');
+      const btnFilterCor = document.querySelector('.btn-filter[data-filter="correct"]');
+      const btnFilterInc = document.querySelector('.btn-filter[data-filter="incorrect"]');
+      const btnFilterUna = document.querySelector('.btn-filter[data-filter="unanswered"]');
+      if (btnFilterAll) btnFilterAll.textContent = `All (${totalQuestions})`;
+      if (btnFilterCor) btnFilterCor.textContent = `Correct (${correctCount})`;
+      if (btnFilterInc) btnFilterInc.textContent = `Incorrect (${incorrectCount})`;
+      if (btnFilterUna) btnFilterUna.textContent = `Unanswered (${unansweredCount})`;
+
+      // Build Review Cards
+      buildReviewList("all");
+
+      showScreen(screenResults);
+    }
+
+    function buildReviewList(filterType = "all") {
+      reviewCardsList.innerHTML = "";
+      const badgeLetters = ["A", "B", "C", "D"];
+
+      questions.forEach((q, idx) => {
+        const userChoice = userAnswers[idx];
+        const isCorrect = (userChoice === q.answer);
+        const isUnanswered = (userChoice === null);
+
+        let statusClass = "incorrect";
+        let statusText = "Incorrect";
+        if (isUnanswered) {
+          statusClass = "unanswered";
+          statusText = "Skipped";
+        } else if (isCorrect) {
+          statusClass = "correct";
+          statusText = "Correct";
+        }
+
+        // Apply filter
+        if (filterType === "correct" && !isCorrect) return;
+        if (filterType === "incorrect" && (isCorrect || isUnanswered)) return;
+        if (filterType === "unanswered" && !isUnanswered) return;
+
+        // Resolve text of chosen and correct options
+        const correctOptIdx = badgeLetters.indexOf(q.answer);
+        const correctOptFull = (correctOptIdx !== -1) ? `(${q.answer}) ${q.options[correctOptIdx]}` : q.answer;
+
+        let userChoiceFull = "None (Skipped)";
+        if (userChoice !== null) {
+          const userOptIdx = badgeLetters.indexOf(userChoice);
+          userChoiceFull = (userOptIdx !== -1) ? `(${userChoice}) ${q.options[userOptIdx]}` : userChoice;
+        }
+
+        const card = document.createElement("div");
+        card.className = `review-card ${statusClass}`;
+        card.innerHTML = `
+          <div class="review-card-top">
+            <span class="review-q-num">Question ${idx + 1} · <span style="color: #a5b4fc; font-weight: 600;">${q.year}</span></span>
+            <span class="status-tag ${statusClass}">${statusText}</span>
+          </div>
+          <div class="review-q-text">${q.question}</div>
+          <div class="review-answers-box">
+            <div class="answer-line">
+              <span style="color: var(--text-dim); font-size: 0.85rem;">Your Choice:</span>
+              <span class="ans-tag your-ans" style="border: 1px solid ${isCorrect ? 'var(--success)' : isUnanswered ? 'var(--warning)' : 'var(--danger)'}">
+                ${userChoiceFull}
+              </span>
+            </div>
+            <div class="answer-line">
+              <span style="color: var(--text-dim); font-size: 0.85rem;">Verified Answer:</span>
+              <span class="ans-tag correct-ans">${correctOptFull}</span>
+            </div>
+          </div>
+        `;
+
+        reviewCardsList.appendChild(card);
+      });
+
+      if (reviewCardsList.children.length === 0) {
+        reviewCardsList.innerHTML = `
+          <div style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.95rem;">
+            No questions matched the "${filterType}" filter.
+          </div>
+        `;
+      }
+    }
+
+    /* -------------------------------------------------------------------------
+       Event Listeners & Keyboard Accessibility
+       ------------------------------------------------------------------------- */
+    // Landing & Navigation
+    btnStartQuiz.addEventListener("click", startQuiz);
+    btnNext.addEventListener("click", goToNext);
+    btnPrev.addEventListener("click", goToPrev);
+    btnClearAns.addEventListener("click", clearCurrentAnswer);
+
+    // Question Drawer
+    btnOpenDrawer.addEventListener("click", openDrawer);
+    btnCloseDrawer.addEventListener("click", closeDrawer);
+    drawerOverlay.addEventListener("click", (e) => {
+      if (e.target === drawerOverlay) closeDrawer();
+    });
+
+    // Confirmation Modal
+    btnCancelSubmit.addEventListener("click", () => {
+      closeConfirm();
+      const firstUnanswered = userAnswers.findIndex(a => a === null);
+      if (firstUnanswered !== -1) {
+        loadQuestion(firstUnanswered);
+      }
+    });
+    btnConfirmSubmit.addEventListener("click", submitQuiz);
+    confirmOverlay.addEventListener("click", (e) => {
+      if (e.target === confirmOverlay) closeConfirm();
+    });
+
+    // Results Actions
+    btnRetake.addEventListener("click", startQuiz);
+    btnHome.addEventListener("click", () => {
+      stopTimer();
+      showScreen(screenLanding);
+    });
+
+    // Review Filters
+    document.querySelectorAll(".btn-filter").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".btn-filter").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        buildReviewList(btn.getAttribute("data-filter"));
+      });
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (drawerOverlay.classList.contains("active")) {
+          closeDrawer();
+          return;
+        }
+        if (confirmOverlay.classList.contains("active")) {
+          closeConfirm();
+          return;
+        }
+      }
+
+      if (drawerOverlay.classList.contains("active") || confirmOverlay.classList.contains("active")) {
+        return;
+      }
+
+      // Quiz Screen Shortcuts
+      if (screenQuiz.classList.contains("active")) {
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          goToNext();
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          goToPrev();
+        }
+
+        // Direct option selection using 1, 2, 3, 4 or A, B, C, D
+        const key = e.key.toUpperCase();
+        const map = { "1": "A", "2": "B", "3": "C", "4": "D", "A": "A", "B": "B", "C": "C", "D": "D" };
+        const selectedLetter = map[key];
+
+        if (selectedLetter) {
+          const card = optionsContainer.querySelector(`[data-letter="${selectedLetter}"]`);
+          let coords = null;
+          if (card) {
+            const rect = card.getBoundingClientRect();
+            coords = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+          }
+          selectAnswer(selectedLetter, coords);
+        }
+      } else if (screenLanding.classList.contains("active")) {
+        if (e.key === "Enter") {
+          startQuiz();
+        }
+      }
+    });
+
+    /* -------------------------------------------------------------------------
+       Crackers Animation & Audio Engine
+       ------------------------------------------------------------------------- */
+    const crackerCanvas = document.getElementById("crackerCanvas");
+    const crackerCtx = crackerCanvas.getContext("2d");
+    let crackerParticles = [];
+    let crackerShockwaves = [];
+    let crackerAnimId = null;
+
+    function resizeCrackerCanvas() {
+      crackerCanvas.width = window.innerWidth;
+      crackerCanvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCrackerCanvas);
+    resizeCrackerCanvas();
+
+    const CRACKER_PALETTE = [
+      "#ffd700", "#ff3d00", "#ff1744", "#00e676", 
+      "#00e5ff", "#d500f9", "#ff9100", "#ffffff",
+      "#6366f1", "#ec4899", "#f59e0b", "#10b981"
+    ];
+
+    let audioCtx = null;
+    function playCrackerPop() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+
+        const now = audioCtx.currentTime;
+
+        // 1. Crackle burst noise
+        const bufferSize = Math.floor(audioCtx.sampleRate * 0.05);
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = "bandpass";
+        filter.frequency.setValueAtTime(1500, now);
+        filter.Q.setValueAtTime(4, now);
+
+        const noiseGain = audioCtx.createGain();
+        noiseGain.gain.setValueAtTime(0.25, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+
+        noise.connect(filter);
+        filter.connect(noiseGain);
+        noiseGain.connect(audioCtx.destination);
+        noise.start(now);
+
+        // 2. Sparkle ping
+        const osc = audioCtx.createOscillator();
+        const oscGain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(950, now);
+        osc.frequency.exponentialRampToValueAtTime(1450, now + 0.1);
+
+        oscGain.gain.setValueAtTime(0.12, now);
+        oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+
+        osc.connect(oscGain);
+        oscGain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.1);
+      } catch (e) {
+        // Silently ignore if blocked
+      }
+    }
+
+    class CrackerParticle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 3.5;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed - (Math.random() * 2.5 + 0.5);
+        this.gravity = 0.22;
+        this.friction = 0.94;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.024 + 0.016;
+        this.size = Math.random() * 4 + 2;
+        this.type = Math.random() > 0.45 ? "circle" : (Math.random() > 0.5 ? "star" : "spark");
+        this.spin = Math.random() * 0.3 - 0.15;
+        this.rotation = Math.random() * Math.PI * 2;
+      }
+
+      update() {
+        this.vx *= this.friction;
+        this.vy *= this.friction;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.spin;
+        this.alpha -= this.decay;
+      }
+
+      draw(c) {
+        c.save();
+        c.globalAlpha = Math.max(0, this.alpha);
+        c.fillStyle = this.color;
+        c.shadowColor = this.color;
+        c.shadowBlur = 8;
+        c.translate(this.x, this.y);
+        c.rotate(this.rotation);
+
+        if (this.type === "circle") {
+          c.beginPath();
+          c.arc(0, 0, this.size, 0, Math.PI * 2);
+          c.fill();
+        } else if (this.type === "star") {
+          c.beginPath();
+          const r = this.size * 1.6;
+          c.moveTo(0, -r);
+          c.quadraticCurveTo(0, 0, r, 0);
+          c.quadraticCurveTo(0, 0, 0, r);
+          c.quadraticCurveTo(0, 0, -r, 0);
+          c.quadraticCurveTo(0, 0, 0, -r);
+          c.fill();
+        } else {
+          c.beginPath();
+          c.moveTo(0, -this.size * 2);
+          c.lineTo(this.size * 0.6, 0);
+          c.lineTo(0, this.size * 2);
+          c.lineTo(-this.size * 0.6, 0);
+          c.closePath();
+          c.fill();
+        }
+
+        c.restore();
+      }
+    }
+
+    class CrackerShockwave {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = 4;
+        this.maxRadius = Math.random() * 30 + 45;
+        this.alpha = 0.85;
+      }
+      update() {
+        this.radius += (this.maxRadius - this.radius) * 0.22;
+        this.alpha *= 0.87;
+      }
+      draw(c) {
+        if (this.alpha <= 0.02) return;
+        c.save();
+        c.globalAlpha = this.alpha;
+        c.strokeStyle = this.color;
+        c.lineWidth = 3;
+        c.shadowColor = this.color;
+        c.shadowBlur = 10;
+        c.beginPath();
+        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        c.stroke();
+        c.restore();
+      }
+    }
+
+    function triggerCrackers(x, y) {
+      playCrackerPop();
+
+      const mainColor = CRACKER_PALETTE[Math.floor(Math.random() * CRACKER_PALETTE.length)];
+      crackerShockwaves.push(new CrackerShockwave(x, y, mainColor));
+
+      const count = Math.floor(Math.random() * 20) + 45;
+      for (let i = 0; i < count; i++) {
+        const color = CRACKER_PALETTE[Math.floor(Math.random() * CRACKER_PALETTE.length)];
+        crackerParticles.push(new CrackerParticle(x, y, color));
+      }
+
+      if (!crackerAnimId) {
+        animateCrackersLoop();
+      }
+    }
+
+    function animateCrackersLoop() {
+      crackerCtx.clearRect(0, 0, crackerCanvas.width, crackerCanvas.height);
+
+      for (let i = crackerShockwaves.length - 1; i >= 0; i--) {
+        const sw = crackerShockwaves[i];
+        sw.update();
+        sw.draw(crackerCtx);
+        if (sw.alpha <= 0.03) {
+          crackerShockwaves.splice(i, 1);
+        }
+      }
+
+      for (let i = crackerParticles.length - 1; i >= 0; i--) {
+        const p = crackerParticles[i];
+        p.update();
+        p.draw(crackerCtx);
+        if (p.alpha <= 0.01) {
+          crackerParticles.splice(i, 1);
+        }
+      }
+
+      if (crackerParticles.length > 0 || crackerShockwaves.length > 0) {
+        crackerAnimId = requestAnimationFrame(animateCrackersLoop);
+      } else {
+        crackerAnimId = null;
+        crackerCtx.clearRect(0, 0, crackerCanvas.width, crackerCanvas.height);
+      }
+    }
+  </script>
+</body>
+</html>
